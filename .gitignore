@@ -1,0 +1,83 @@
+# SBT specific files
+target/
+lib_managed/
+src_managed/
+.project
+.cache
+.history
+.lib/
+dist/
+target/
+lib_managed/
+src_managed/
+.ensime
+.ensime_cache
+.idea/
+.cache/
+project/boot/
+project/plugins/project/
+target/streams/
+target/resolution-cache/
+.DS_Store
+
+# Scala-IDE specific files
+.cache-main
+.scala_dependencies
+.worksheet
+
+# IntelliJ specific files
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Mac OS specific files
+.DS_Store
+*.DS_Store
+._*
+
+# Thumbnails
+._.DS_Store
+Thumbs.db
+
+# Vagrant
+.vagrant/
+
+# Log files
+*.log
+
+# Compiled class files
+*.class
+
+# Generated files
+*.class
+*.log
+*.ctxt
+*.class
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Scala.js
+.cache
+target/
+
+# Package Files #
+# *.jar, *.war, *.nar, *.ear, *.zip, *.tar.gz, *.rar
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
