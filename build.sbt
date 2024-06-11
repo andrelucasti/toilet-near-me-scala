@@ -19,3 +19,16 @@ libraryDependencies += "org.postgresql" % "postgresql" % pgVersion
 libraryDependencies += "org.awaitility" % "awaitility-scala" % "4.2.0" % Test
 libraryDependencies += "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 libraryDependencies += "org.scalatestplus" %% "mockito-5-10" % scalaMockitoVersion % Test
+
+val PekkoVersion = "1.0.2"
+val PekkoHttpVersion = "1.0.1"
+
+libraryDependencies ++= Seq(
+  "org.apache.pekko" %% "pekko-actor-typed" % PekkoVersion,
+  "org.apache.pekko" %% "pekko-stream" % PekkoVersion,
+  "org.apache.pekko" %% "pekko-http" % PekkoHttpVersion,
+  "org.apache.pekko" %% "pekko-http-spray-json" % PekkoHttpVersion,
+
+  "org.apache.pekko" %% "pekko-stream-testkit" % PekkoVersion,
+  "org.apache.pekko" %% "pekko-http-testkit" % PekkoHttpVersion
+)

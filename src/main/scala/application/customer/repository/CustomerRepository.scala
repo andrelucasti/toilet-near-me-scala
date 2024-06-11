@@ -1,7 +1,7 @@
 package io.andrelucas
-package customer.usecases
+package application.customer.repository
 
-import io.andrelucas.customer.Customer
+import io.andrelucas.application.customer.Customer
 
 import scala.concurrent.Future
 

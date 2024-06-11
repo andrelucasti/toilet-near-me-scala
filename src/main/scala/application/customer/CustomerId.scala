@@ -1,7 +1,7 @@
 package io.andrelucas
-package customer
+package application.customer
 
-import io.andrelucas.customer.CustomerId.generator
+import CustomerId.generator
 
 import java.util.UUID
 

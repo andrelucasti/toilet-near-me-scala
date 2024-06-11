@@ -1,6 +1,7 @@
 package io.andrelucas
 package customer
 
+import io.andrelucas.application.customer.Customer
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 

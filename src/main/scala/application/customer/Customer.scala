@@ -1,5 +1,5 @@
 package io.andrelucas
-package customer
+package application.customer
 
 import scala.util.{Success, Try}
 

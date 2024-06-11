@@ -1,0 +1,15 @@
+### POST Create Customer
+POST http://localhost:8081/customers
+Content-Type: application/json
+
+{
+  "name": "Andre Lucas",
+  "email": "andrelucastic@gmail.com"
+}
+
+### Capture the response body ID
+@customerId = 55781f53-73b2-4362-8616-4ca8084357fd
+
+
+### GET Customer by ID
+GET http://localhost:8081/customers
