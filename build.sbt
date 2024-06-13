@@ -22,6 +22,7 @@ libraryDependencies += "org.scalatestplus" %% "mockito-5-10" % scalaMockitoVersi
 
 val PekkoVersion = "1.0.2"
 val PekkoHttpVersion = "1.0.1"
+val slickVersion = "3.5.1"
 
 libraryDependencies ++= Seq(
   "org.apache.pekko" %% "pekko-actor-typed" % PekkoVersion,
@@ -30,5 +31,16 @@ libraryDependencies ++= Seq(
   "org.apache.pekko" %% "pekko-http-spray-json" % PekkoHttpVersion,
 
   "org.apache.pekko" %% "pekko-stream-testkit" % PekkoVersion,
-  "org.apache.pekko" %% "pekko-http-testkit" % PekkoHttpVersion
+  "org.apache.pekko" %% "pekko-http-testkit" % PekkoHttpVersion,
+
+  "com.typesafe.slick" %% "slick" % slickVersion,
+  "com.typesafe.slick" %% "slick-hikaricp" % slickVersion,
+  "com.typesafe.slick" %% "slick-testkit" % slickVersion,
+
+  "org.postgresql" % "postgresql" % pgVersion,
+
+  "org.flywaydb" % "flyway-core" % "9.0.0"
 )
+
+addCommandAlias("migration", ";clean;compile;runMain io.andrelucas.infrastructure.AppMigration")
+addCommandAlias("startMinimalApp", ";clean;compile;runMain io.andrelucas.AppMinimal")

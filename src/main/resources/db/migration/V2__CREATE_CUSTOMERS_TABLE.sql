@@ -1,0 +1,9 @@
+CREATE TABLE CUSTOMERS (
+    ID          UUID            NOT NULL PRIMARY KEY,
+    NAME        VARCHAR(100)    NOT NULL,
+    EMAIL       VARCHAR(100)    NOT NULL,
+    PASSWORD    TEXT            NOT NULL,
+    VERSION     INT             NOT NULL,
+    CREATED_AT  TIMESTAMP       DEFAULT NOW(),
+    UPDATED_AT  TIMESTAMP       DEFAULT NOW()
+);

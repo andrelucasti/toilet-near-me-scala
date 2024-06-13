@@ -3,7 +3,7 @@ package application.customer
 
 import scala.util.{Success, Try}
 
-case class Customer(customerId: CustomerId,
+case class Customer(id: CustomerId,
                     name: String,
                     email: String,
                     password: String)

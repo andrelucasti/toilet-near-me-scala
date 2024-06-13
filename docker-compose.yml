@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    hostname: db
+    environment:
+      - POSTGRES_PASSWORD=toilet
+      - POSTGRES_USER=toilet
+      - POSTGRES_DB=toilet
+    ports:
+      - "5432:5432"

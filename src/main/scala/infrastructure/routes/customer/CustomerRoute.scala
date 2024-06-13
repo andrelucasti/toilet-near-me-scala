@@ -29,15 +29,13 @@ object CustomerRoute {
       entity(as[CreateCustomerRequest]) { request =>
         val input = RegisterCustomerUseCase.Input(request.name, request.email, c => customerRepository.save(c), () => "123456")
         val output = RegisterCustomerUseCase().execute(input)
-
-        //onSuccess(output) { output => complete(StatusCodes.Created, s"Customer created with id: ${output.customerId}") }
+        
         onComplete(output) {
           case scala.util.Success(output) => complete(StatusCodes.Created, s"Customer created with id: ${output.customerId}")
           case scala.util.Failure(exception: EmailInvalidException) => complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
           case scala.util.Failure(exception: NameInvalidException) => complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
           case scala.util.Failure(exception) => complete(StatusCodes.InternalServerError, s"Error: ${exception.getMessage}")
         }
-
       }
     }
   }
