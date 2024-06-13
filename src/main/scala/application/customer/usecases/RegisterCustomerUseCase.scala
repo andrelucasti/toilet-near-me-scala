@@ -10,7 +10,7 @@ case class RegisterCustomerUseCase() (implicit ec: ExecutionContext):
 
   def execute(input: Input): Future[Output] =
     Future.fromTry {
-      Customer.newCustomer(input.name, input.email, input.passwordGenerator())
+      Customer.create(input.name, input.email, input.passwordGenerator())
     }.flatMap { customer => input.saveCustomer(customer).map(_ => Output(customer.id))
     }.recoverWith {
       case exception =>

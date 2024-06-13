@@ -1,6 +1,8 @@
 package io.andrelucas
 package application.customer
 
+import io.andrelucas.application.commons.{EmailInvalidException, NameInvalidException}
+
 import scala.util.{Success, Try}
 
 case class Customer(id: CustomerId,
@@ -12,9 +14,9 @@ case class Customer(id: CustomerId,
 
 case object Customer:
 
-  def newCustomer(name: String,
-                  email: String,
-                  password: String): Try[Customer] =
+  def create(name: String,
+             email: String,
+             password: String): Try[Customer] =
     Try {
       val emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$".r
 

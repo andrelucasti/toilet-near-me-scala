@@ -8,12 +8,10 @@ import application.customer.usecases.RegisterCustomerUseCase
 
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito.verify
-import org.scalatest.flatspec.AnyFlatSpecLike
-import org.scalatestplus.mockito.MockitoSugar
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RegisterCustomerUseCaseTest extends AnyFlatSpecLike with MockitoSugar {
+class RegisterCustomerUseCaseTest extends UnitTest {
   given ec: ExecutionContext = ExecutionContext.global
 
   val customerRepositoryMock: CustomerRepository = mock[CustomerRepository]

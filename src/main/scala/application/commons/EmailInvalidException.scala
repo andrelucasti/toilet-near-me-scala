@@ -1,4 +1,4 @@
 package io.andrelucas
-package application.customer
+package application.commons
 
 class EmailInvalidException(msg: String) extends RuntimeException(msg, null, true, false)

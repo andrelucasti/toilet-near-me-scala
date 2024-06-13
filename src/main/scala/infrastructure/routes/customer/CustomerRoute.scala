@@ -1,10 +1,10 @@
 package io.andrelucas
 package infrastructure.routes.customer
 
+import application.commons.{EmailInvalidException, NameInvalidException}
 import application.customer.repository.CustomerRepository
 import application.customer.usecases.RegisterCustomerUseCase
 
-import io.andrelucas.application.customer.{EmailInvalidException, NameInvalidException}
 import org.apache.pekko
 import org.apache.pekko.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 import org.apache.pekko.http.scaladsl.model.StatusCodes
