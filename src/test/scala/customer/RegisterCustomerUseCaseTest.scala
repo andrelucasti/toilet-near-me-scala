@@ -12,7 +12,6 @@ import org.mockito.Mockito.verify
 import scala.concurrent.{ExecutionContext, Future}
 
 class RegisterCustomerUseCaseTest extends UnitTest {
-  given ec: ExecutionContext = ExecutionContext.global
 
   val customerRepositoryMock: CustomerRepository = mock[CustomerRepository]
   val saveCustomer: Customer => Future[Unit] = (customer: Customer) => customerRepositoryMock.save(customer)

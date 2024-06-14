@@ -21,8 +21,8 @@ class ToiletTest extends UnitTest {
 
   it should "create a toilet when description and geolocation are valid" in {
     val toilet = Toilet.create("Gym Toilet", 90, 180, ToiletType.Free)
-
-    toilet.toEither.right.get should be (Toilet("Gym Toilet", Geolocation(90, 180), ToiletType.Free, 0))
+    val toiletId = toilet.toEither.right.get.id
+    toilet.toEither.right.get should be (Toilet(toiletId, "Gym Toilet", Geolocation(90, 180), ToiletType.Free, 0))
   }
 
   it should "not create a toilet when is paid and does not have a value" in {
@@ -33,7 +33,8 @@ class ToiletTest extends UnitTest {
 
   it should "create a paid toilet when has a value" in {
     val toilet = Toilet.create("Gym Toilet", 90, 180, ToiletType.Paid, 100)
+    val toiletId = toilet.toEither.right.get.id
 
-    toilet.toEither.right.get should be (Toilet("Gym Toilet", Geolocation(90, 180), ToiletType.Paid, 100))
+    toilet.toEither.right.get should be (Toilet(toiletId, "Gym Toilet", Geolocation(90, 180), ToiletType.Paid, 100))
   }
 }

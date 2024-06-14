@@ -41,6 +41,7 @@ libraryDependencies ++= Seq(
 
   "org.flywaydb" % "flyway-core" % "9.0.0"
 )
+libraryDependencies += "org.scala-lang" %% "toolkit-test" % "0.1.7" % Test
 
 addCommandAlias("migration", ";clean;compile;runMain io.andrelucas.infrastructure.AppMigration")
 addCommandAlias("startMinimalApp", ";clean;compile;runMain io.andrelucas.AppMinimal")
