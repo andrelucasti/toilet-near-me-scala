@@ -3,6 +3,7 @@ package application.toilet
 
 import application.customer.{CustomerId, CustomerNotFoundException}
 
+import io.andrelucas.application.toilet.Toilet.ToiletType
 import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable.ListBuffer

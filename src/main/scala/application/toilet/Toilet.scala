@@ -1,7 +1,8 @@
 package io.andrelucas
 package application.toilet
 
-import io.andrelucas.application.commons.NameInvalidException
+import application.commons.NameInvalidException
+import application.toilet.Toilet.ToiletType
 
 import scala.util.Try
 
@@ -12,6 +13,9 @@ case class Toilet(id: ToiletId,
                   price: Long)
 
 case object Toilet:
+  enum ToiletType:
+    case Free, Paid
+
   def create(name: String,
              latitude: Double,
              longitude: Double,
@@ -32,7 +36,4 @@ case object Toilet:
   private def createPaidToilet(name: String, latitude: Double, longitude: Double, price: Long): Toilet = {
     Toilet(ToiletId.generate, name, Geolocation(latitude, longitude), ToiletType.Paid, price)
   }
-
-enum ToiletType:
-  case Free, Paid
 

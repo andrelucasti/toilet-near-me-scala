@@ -14,6 +14,7 @@ lazy val scalaTestVersion = "3.2.18"
 lazy val scalaMockitoVersion = "3.2.18.0"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6"
 libraryDependencies += "org.postgresql" % "postgresql" % pgVersion
 
 libraryDependencies += "org.awaitility" % "awaitility-scala" % "4.2.0" % Test

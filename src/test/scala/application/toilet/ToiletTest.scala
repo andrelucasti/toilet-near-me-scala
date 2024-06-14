@@ -3,6 +3,8 @@ package application.toilet
 
 import application.commons.NameInvalidException
 
+import io.andrelucas.application.toilet.Toilet.ToiletType
+
 import scala.util.Either.LeftProjection
 
 class ToiletTest extends UnitTest {

@@ -1,5 +1,5 @@
 package io.andrelucas
-package infrastructure.routes.customer.db
+package infrastructure.routes.db
 
 import application.customer.repository.CustomerRepository
 import application.customer.{Customer, CustomerId}
@@ -37,6 +37,8 @@ class CustomerRepositoryInMemory extends CustomerRepository {
     buffer += customer
     Future.successful(())
   }
+  
+  override def exist(customerId: CustomerId): Future[Boolean] = {
+    Future.successful(buffer.exists(_.id == customerId))
+  }
 }
-
-case object CustomerRepositoryInMemory {}

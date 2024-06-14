@@ -14,7 +14,6 @@ case class RegisterCustomerUseCase() (implicit ec: ExecutionContext):
     }.flatMap { customer => input.saveCustomer(customer).map(_ => Output(customer.id))
     }.recoverWith {
       case exception =>
-        println(exception.getMessage)
         Future.failed(exception)
     }
 

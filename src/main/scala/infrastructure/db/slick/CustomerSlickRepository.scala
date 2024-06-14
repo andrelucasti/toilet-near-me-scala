@@ -41,4 +41,8 @@ class CustomerSlickRepository(db: Database)(implicit ec: ExecutionContext) exten
   override def delete(id: CustomerId): Future[Unit] =
     db.run(customers.filter(_.id === id.value).delete).map(_ => ())
 
+
+  override def exist(customerId: CustomerId): Future[Boolean] = 
+    db.run(customers.filter(_.id === customerId.value).exists.result)
+
 }

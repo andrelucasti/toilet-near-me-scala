@@ -5,36 +5,44 @@ import application.commons.{EmailInvalidException, NameInvalidException}
 import application.customer.repository.CustomerRepository
 import application.customer.usecases.RegisterCustomerUseCase
 
+import com.typesafe.scalalogging.Logger
 import org.apache.pekko
 import org.apache.pekko.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 import org.apache.pekko.http.scaladsl.model.StatusCodes
 import org.apache.pekko.http.scaladsl.server.Directives.*
 import org.apache.pekko.http.scaladsl.server.Route
 import spray.json.DefaultJsonProtocol.{StringJsonFormat, jsonFormat2}
-import spray.json.RootJsonFormat
+import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 
 class CustomerRoute
 
-object CustomerRoute {
+object CustomerRoute  {
+  private val logger = Logger("CustomerRoute")
   private def getAllCustomers(customerRepository: CustomerRepository): Route = {
     get {
       complete(s"Customer")
     }
   }
 
-  private def createCustomer(customerRepository: CustomerRepository): Route = {
+  private def createCustomer(customerRepository: CustomerRepository)(implicit ec: ExecutionContext): Route = {
     post {
       entity(as[CreateCustomerRequest]) { request =>
-        val input = RegisterCustomerUseCase.Input(request.name, request.email, c => customerRepository.save(c), () => "123456")
+        val input = RegisterCustomerUseCase.Input(request.name, request.email, customerRepository.save, () => "123456")
         val output = RegisterCustomerUseCase().execute(input)
         
         onComplete(output) {
           case scala.util.Success(output) => complete(StatusCodes.Created, s"Customer created with id: ${output.customerId}")
-          case scala.util.Failure(exception: EmailInvalidException) => complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
-          case scala.util.Failure(exception: NameInvalidException) => complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
-          case scala.util.Failure(exception) => complete(StatusCodes.InternalServerError, s"Error: ${exception.getMessage}")
+          case scala.util.Failure(exception: EmailInvalidException) =>
+            logger.error(exception.getMessage)
+            complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
+          case scala.util.Failure(exception: NameInvalidException) =>
+            logger.error(exception.getMessage)
+            complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
+          case scala.util.Failure(exception) =>
+            logger.error(exception.getMessage)
+            complete(StatusCodes.InternalServerError, s"Error: ${exception.getMessage}")
         }
       }
     }
@@ -46,7 +54,7 @@ object CustomerRoute {
     }
   }
 
-  def apply(customerRepository: CustomerRepository): Route =
+  def apply(customerRepository: CustomerRepository)(implicit ec: ExecutionContext): Route =
     pathPrefix("customers") {
       concat(
         pathEnd {
@@ -64,7 +72,7 @@ object CustomerRoute {
   }
 
   case class CreateCustomerRequest(name: String, email: String)
-  given createCustomerRequestFormat: RootJsonFormat[CreateCustomerRequest] = jsonFormat2(CreateCustomerRequest.apply)
+  given createCustomerRequestFormat: RootJsonFormat[CreateCustomerRequest] = DefaultJsonProtocol.jsonFormat2(CreateCustomerRequest.apply)
 }
 
 

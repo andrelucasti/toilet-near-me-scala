@@ -1,8 +1,8 @@
 package io.andrelucas
 package infrastructure.routes.customer
 
-import infrastructure.routes.customer.db.CustomerRepositoryInMemory
 
+import io.andrelucas.infrastructure.routes.db.CustomerRepositoryInMemory
 import org.apache.pekko.http.scaladsl.model.{ContentTypes, HttpEntity}
 import org.apache.pekko.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.flatspec.AnyFlatSpecLike
@@ -13,7 +13,7 @@ class CustomerRouteIntegrationTest extends AnyFlatSpecLike
   with ScalatestRouteTest {
 
   private val customerRepository = new CustomerRepositoryInMemory()
-
+  
   it should "return 201 when creating a new customer" in {
     val requestEntity = HttpEntity(ContentTypes.`application/json`, """{"name": "John Doe", "email": "john.doe@example.com"}""")
     Post("/customers", requestEntity) ~> CustomerRoute(customerRepository) ~> check {
