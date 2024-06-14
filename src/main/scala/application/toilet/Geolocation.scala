@@ -10,7 +10,7 @@ case object Geolocation:
     
     new Geolocation(latitude, longitude)
 
-  def geolocationValidation(latitude: Double,
+  private def geolocationValidation(latitude: Double,
                             longitude: Double): Unit = {
 
     val checkLatitude = latitude < -90 || latitude > 90

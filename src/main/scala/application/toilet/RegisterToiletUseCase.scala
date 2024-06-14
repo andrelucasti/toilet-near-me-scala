@@ -9,6 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 case class RegisterToiletUseCase()(implicit ec: ExecutionContext):
+
   def execute(input: Input,
               customerExist: CustomerId => Future[Boolean],
               registerToilet: Toilet => Future[Unit]): Future[Output] =
@@ -17,9 +18,10 @@ case class RegisterToiletUseCase()(implicit ec: ExecutionContext):
       .flatMap {
         case false => Future.failed(CustomerNotFoundException(s"Customer ${input.customerId} does not exist"))
         case true =>
-          Toilet.create(input.toiletName, input.latitude, input.longitude) match
+
+          Toilet.create(input.toiletName, input.latitude, input.longitude, input.toiletPrice) match
             case Failure(exception) => Future.failed(exception)
-            case Success(toilet) => registerToilet(toilet).map(_ => Output(toilet.id.asString))
+            case Success(toilet) => registerToilet(toilet).map(_ => Output(toilet.id.value))
       }
 
 case object RegisterToiletUseCase:
@@ -27,6 +29,7 @@ case object RegisterToiletUseCase:
   case class Input(toiletName: String,
                    latitude: Double,
                    longitude: Double,
-                   customerId: UUID)
+                   customerId: UUID,
+                   toiletPrice: Long = 0)
 
-  case class Output(toiletId: String)
+  case class Output(toiletId: UUID)
