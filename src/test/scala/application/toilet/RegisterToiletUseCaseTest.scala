@@ -17,7 +17,7 @@ class RegisterToiletUseCaseTest extends munit.FunSuite with Matchers {
   }
 
   test("should not save a toilet when customer does not exist"){
-    val mockCustomerExist = (_:CustomerId) => false
+    val mockCustomerExist = (_:CustomerId) => Future.successful(false)
     val customerId = CustomerId.generate.value
     val input = RegisterToiletUseCase.Input("Gym Toilet", 0, 0, customerId)
 
@@ -32,7 +32,7 @@ class RegisterToiletUseCaseTest extends munit.FunSuite with Matchers {
   }
 
   test("should not save a toilet when geolocation is invalid") {
-    val mockCustomerExist = (_:CustomerId) => true
+    val mockCustomerExist = (_: CustomerId) => Future.successful(true)
     val customerId = CustomerId.generate.value
     val input = RegisterToiletUseCase.Input("Gym Toilet", 90.1, 181, customerId)
 

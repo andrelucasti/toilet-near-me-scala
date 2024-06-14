@@ -1,37 +1,32 @@
 package io.andrelucas
 package application.toilet
 
+import application.customer.{CustomerId, CustomerNotFoundException}
 import application.toilet.RegisterToiletUseCase.{Input, Output}
-
-import io.andrelucas.application.customer.{CustomerId, CustomerNotFoundException}
 
 import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 case class RegisterToiletUseCase()(implicit ec: ExecutionContext):
-  def execute(input: Input, 
-              customerExist: CustomerId => Boolean,
-              registerToilet: (Toilet) => Future[Unit]): Future[Output] = 
-    
-  if !customerExist(CustomerId(input.customerId)) then  
-    Future.failed(CustomerNotFoundException(s"Customer ${input.customerId} does not exist"))
-  else 
-    Future.fromTry {
-      Toilet.create(input.toiletName, input.latitude, input.longitude)
-    }.map { toilet =>
-      registerToilet(toilet)
-      Output(toilet.id.asString)
-    }.recoverWith { e => 
-      Future.failed(e)
-    }
-  
-    
-    
+  def execute(input: Input,
+              customerExist: CustomerId => Future[Boolean],
+              registerToilet: Toilet => Future[Unit]): Future[Output] =
+
+    customerExist(CustomerId(input.customerId))
+      .flatMap {
+        case false => Future.failed(CustomerNotFoundException(s"Customer ${input.customerId} does not exist"))
+        case true =>
+          Toilet.create(input.toiletName, input.latitude, input.longitude) match
+            case Failure(exception) => Future.failed(exception)
+            case Success(toilet) => registerToilet(toilet).map(_ => Output(toilet.id.asString))
+      }
+
 case object RegisterToiletUseCase:
-  
-  case class Input(toiletName: String, 
-                   latitude: Double, 
-                   longitude: Double, 
+
+  case class Input(toiletName: String,
+                   latitude: Double,
+                   longitude: Double,
                    customerId: UUID)
-  
+
   case class Output(toiletId: String)
