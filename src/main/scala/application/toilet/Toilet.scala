@@ -14,7 +14,7 @@ case class Toilet(id: ToiletId,
 
 case object Toilet:
   enum ToiletType:
-    case Free, Paid
+    case FREE, PAID
 
   def create(name: String,
              latitude: Double,
@@ -30,10 +30,10 @@ case object Toilet:
   }
 
   private def createFreeToilet(name: String, latitude: Double, longitude: Double): Toilet = {
-    Toilet(ToiletId.generate, name, Geolocation(latitude, longitude), ToiletType.Free, 0)
+    Toilet(ToiletId.generate, name, Geolocation(latitude, longitude), ToiletType.FREE, 0)
   }
 
   private def createPaidToilet(name: String, latitude: Double, longitude: Double, price: Long): Toilet = {
-    Toilet(ToiletId.generate, name, Geolocation(latitude, longitude), ToiletType.Paid, price)
+    Toilet(ToiletId.generate, name, Geolocation(latitude, longitude), ToiletType.PAID, price)
   }
 

@@ -1,0 +1,28 @@
+
+### Capture the response body ID
+@customerId = 2588c195-eabc-45a5-a760-e21d02d34d96
+
+### POST Create PAID Toilet
+POST http://localhost:8081/toilet
+Content-Type: application/json
+
+{
+  "name": "Toilet San Andreas",
+  "latitude": 37.7749,
+  "longitude": -166.4194,
+  "price": 200,
+  "customerId": "{{customerId}}"
+}
+
+### POST Create FREE Toilet
+POST http://localhost:8081/toilet
+Content-Type: application/json
+
+{
+  "name": "My Toilet",
+  "latitude": 0.7749,
+  "longitude": 0.4194,
+  "price": 0,
+  "customerId": "{{customerId}}"
+}
+

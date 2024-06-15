@@ -65,7 +65,7 @@ class RegisterToiletUseCaseTest extends munit.FunSuite
     val output = concurrent.Await.result(eventualOutput, concurrent.duration.Duration.Inf)
 
     bufferToilet should have size 1
-    bufferToilet.head should be (Toilet(ToiletId(output.toiletId), "Gym Toilet", Geolocation(90, 180), ToiletType.Free, 0))
+    bufferToilet.head should be (Toilet(ToiletId(output.toiletId), "Gym Toilet", Geolocation(90, 180), ToiletType.FREE, 0))
   }
 
   test("should save a paid toilet when has a toilet price, the customer exists and geolocation is valid"){
@@ -79,6 +79,6 @@ class RegisterToiletUseCaseTest extends munit.FunSuite
     val output = concurrent.Await.result(eventualOutput, concurrent.duration.Duration.Inf)
 
     bufferToilet should have size 1
-    bufferToilet.head should be (Toilet(ToiletId(output.toiletId), "Gym Toilet", Geolocation(90, 180), ToiletType.Paid, 100))
+    bufferToilet.head should be (Toilet(ToiletId(output.toiletId), "Gym Toilet", Geolocation(90, 180), ToiletType.PAID, 100))
   }
 }

@@ -26,14 +26,15 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
       }).get
 
     val payload =
-      """{"name": "",
+      s"""{"name": "",
         |"latitude": 38.714569257162864,
         |"longitude": -9.12229635945829,
-        |"price": 50
+        |"price": 50,
+        |"customerId": "${customerId.value.toString}"
         |}""".stripMargin
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
-    val path = s"/toilets/${customerId.value}"
+    val path = "/toilet"
     Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
       status.intValue shouldEqual 400
     }
@@ -43,14 +44,15 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
     val customerId = CustomerId.generate
 
     val payload =
-      """{"name": "Toilet",
+      s"""{"name": "Toilet",
         |"latitude": 38.714569257162864,
         |"longitude": -9.12229635945829,
-        |"price": 50
+        |"price": 50,
+        |"customerId":"${customerId.value.toString}"
         |}""".stripMargin
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
-    val path = s"/toilets/${customerId.value}"
+    val path = s"/toilet"
     Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
       status.intValue shouldEqual 400
     }
@@ -64,14 +66,15 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
       }).get
 
     val payload =
-      """{"name": "Toilet",
+      s"""{"name": "Toilet",
         |"latitude": 97,
         |"longitude": 182,
-        |"price": 50
+        |"price": 50,
+        |"customerId":"${customerId.value.toString}"
         |}""".stripMargin
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
-    val path = s"/toilets/${customerId.value}"
+    val path = "/toilet"
     Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
       status.intValue shouldEqual 400
     }
@@ -85,14 +88,15 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
       }).get
 
     val payload =
-      """{"name": "Toilet",
+      s"""{"name": "Toilet",
         |"latitude": 38.714569257162864,
         |"longitude": -9.12229635945829,
-        |"price": 50
+        |"price": 50,
+        |"customerId": "${customerId.value.toString}"
         |}""".stripMargin
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
-    val path = s"/toilets/${customerId.value}"
+    val path = "/toilet"
     Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
       status.intValue shouldEqual 201
     }
