@@ -44,5 +44,19 @@ libraryDependencies ++= Seq(
 )
 libraryDependencies += "org.scala-lang" %% "toolkit-test" % "0.1.7" % Test
 
+val openTelemetryVersion = "1.39.0"
+val openTelemetryAppenderLogVersion = "2.4.0-alpha"
+
+libraryDependencies ++= Seq(
+  "io.opentelemetry" % "opentelemetry-api" % openTelemetryVersion,
+  "io.opentelemetry" % "opentelemetry-sdk" % openTelemetryVersion,
+  "io.opentelemetry" % "opentelemetry-exporter-otlp" % openTelemetryVersion,
+  "io.opentelemetry.semconv" % "opentelemetry-semconv" % "1.25.0-alpha",
+  "io.opentelemetry" % "opentelemetry-sdk-extension-autoconfigure" % openTelemetryVersion,
+
+  "io.opentelemetry.instrumentation" % "opentelemetry-log4j-appender-2.17" % openTelemetryAppenderLogVersion,
+  "io.opentelemetry.instrumentation" % "opentelemetry-logback-appender-1.0" % openTelemetryAppenderLogVersion,
+)
+
 addCommandAlias("migration", ";clean;compile;runMain io.andrelucas.infrastructure.AppMigration")
 addCommandAlias("startMinimalApp", ";clean;compile;runMain io.andrelucas.AppMinimal")

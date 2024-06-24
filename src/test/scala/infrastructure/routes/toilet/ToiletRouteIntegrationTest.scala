@@ -5,6 +5,7 @@ import infrastructure.db.toilet.ToiletInMemoryRepository
 import infrastructure.routes.db.CustomerRepositoryInMemory
 
 import io.andrelucas.application.customer.{Customer, CustomerId}
+import io.opentelemetry.api.GlobalOpenTelemetry
 import org.apache.pekko.http.scaladsl.model.{ContentTypes, HttpEntity}
 import org.apache.pekko.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.flatspec.AnyFlatSpecLike
@@ -16,6 +17,7 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
 
   private val customerRepository = new CustomerRepositoryInMemory()
   private val toiletRepository = new ToiletInMemoryRepository()
+  
 
   it should "return 400 when creating a new toilet with invalid name" in {
 
@@ -35,7 +37,7 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
     val path = "/toilet"
-    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
+    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository, GlobalOpenTelemetry.get()) ~> check {
       status.intValue shouldEqual 400
     }
   }
@@ -53,7 +55,7 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
     val path = s"/toilet"
-    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
+    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository, GlobalOpenTelemetry.get()) ~> check {
       status.intValue shouldEqual 400
     }
   }
@@ -75,7 +77,7 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
     val path = "/toilet"
-    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
+    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository, GlobalOpenTelemetry.get()) ~> check {
       status.intValue shouldEqual 400
     }
   }
@@ -97,7 +99,7 @@ class ToiletRouteIntegrationTest extends AnyFlatSpecLike
 
     val requestEntity = HttpEntity(ContentTypes.`application/json`, payload)
     val path = "/toilet"
-    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository) ~> check {
+    Post(path, requestEntity) ~> ToiletRoute(toiletRepository, customerRepository, GlobalOpenTelemetry.get()) ~> check {
       status.intValue shouldEqual 201
     }
   }

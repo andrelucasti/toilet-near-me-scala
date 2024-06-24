@@ -4,7 +4,9 @@ import infrastructure.db.slick.CustomerSlickRepository
 import infrastructure.routes.customer.CustomerRoute
 
 import io.andrelucas.infrastructure.db.slick.toilet.ToiletSlickRepository
+import io.andrelucas.infrastructure.otel.OtelConfiguration
 import io.andrelucas.infrastructure.routes.toilet.ToiletRoute
+import io.opentelemetry.api.OpenTelemetry
 import org.apache.pekko
 import org.apache.pekko.actor.typed.ActorSystem
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
@@ -25,11 +27,12 @@ object AppMinimal {
   val db = Database.forConfig("toiletdb")
   val customerRepository = new CustomerSlickRepository(db)(virtualThreadExecutor)
   val toiletRepository = new ToiletSlickRepository(db)(virtualThreadExecutor)
+  val openTelemetry: OpenTelemetry = OtelConfiguration()
 
   def main(args: Array[String]): Unit = {
     val routes = Directives.concat(
       CustomerRoute(customerRepository),
-      ToiletRoute(toiletRepository, customerRepository)
+      ToiletRoute(toiletRepository, customerRepository, openTelemetry)
     )
     
     val binding = Http().newServerAt("localhost", 8081).bind(routes)

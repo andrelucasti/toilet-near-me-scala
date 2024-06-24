@@ -8,6 +8,7 @@ import application.customer.{CustomerId, CustomerNotFoundException}
 import application.toilet.{GeolocationException, RegisterToiletUseCase, ToiletRepository}
 
 import com.typesafe.scalalogging.Logger
+import io.opentelemetry.api.OpenTelemetry
 import org.apache.pekko
 import org.apache.pekko.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 import org.apache.pekko.http.scaladsl.model.StatusCodes
@@ -26,20 +27,22 @@ object ToiletRoute {
   private val logger = Logger("ToiletRoute")
   
   private def createToilet(toiletRepository: ToiletRepository, 
-                           customerRepository: CustomerRepository)(implicit ec: ExecutionContext): Route = {
+                           customerRepository: CustomerRepository,
+                           openTelemetry: OpenTelemetry)(implicit ec: ExecutionContext): Route = {
     post {
       entity(as[CreateToiletRequest]) { request =>
+
         val customerUUID = CustomerId(UUID.fromString(request.customerId))
+
         val input = RegisterToiletUseCase.Input(request.name, request.latitude, request.longitude, customerUUID.value, request.price)
         val output = RegisterToiletUseCase().execute(input, customerRepository.exist, toiletRepository.save)
         
         onComplete(output) {
-          case scala.util.Success(output) => complete(StatusCodes.Created, s"Toilet created with id: ${output.toiletId}")
+          case scala.util.Success(output) =>
+            complete(StatusCodes.Created, s"Toilet created with id: ${output.toiletId}")
           case scala.util.Failure(exception: CustomerNotFoundException) =>
-            logger.error(exception.getMessage)
             complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
           case scala.util.Failure(exception: NameInvalidException) =>
-            logger.error(exception.getMessage)
             complete(StatusCodes.BadRequest, s"Error: ${exception.getMessage}")
           case scala.util.Failure(exception: GeolocationException) =>
             logger.error(exception.getMessage)
@@ -53,11 +56,12 @@ object ToiletRoute {
   }
   
   def apply(toiletRepository: ToiletRepository,
-            customerRepository: CustomerRepository)(implicit ec: ExecutionContext): Route =
+            customerRepository: CustomerRepository,
+            openTelemetry: OpenTelemetry)(implicit ec: ExecutionContext): Route =
 
     path("toilet") {
       concat(
-        createToilet(toiletRepository, customerRepository),
+        createToilet(toiletRepository, customerRepository, openTelemetry),
       )
     }
 

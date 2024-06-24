@@ -1,13 +1,13 @@
 
 ### Capture the response body ID
-@customerId = 2588c195-eabc-45a5-a760-e21d02d34d96
+@customerId = e7b4fdec-1a5a-4077-b1b2-67befd54bf13
 
 ### POST Create PAID Toilet
 POST http://localhost:8081/toilet
 Content-Type: application/json
 
 {
-  "name": "Toilet San Andreas",
+  "name": "Paid",
   "latitude": 37.7749,
   "longitude": -166.4194,
   "price": 200,
